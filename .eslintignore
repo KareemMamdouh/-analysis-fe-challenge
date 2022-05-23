@@ -1,0 +1,11 @@
+public/
+build/
+node_modules/
+serviceWorker.js
+*.test.js
+jest.config.js
+/src/redux/store/generateAPI
+/src/redux/store/petApi.ts
+openapi-config.ts
+# *.ts
+# *.tsx

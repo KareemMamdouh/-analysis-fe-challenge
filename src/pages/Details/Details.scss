@@ -1,0 +1,15 @@
+.details {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+
+  .card {
+    padding: 10px 30px 30px 30px;
+    width: 33.333%;
+    box-shadow: 1px 1px 5px var(--gray-color);
+    background-color: var(--white-bg-color);
+    h3 {
+      text-align: center;
+    }
+  }
+}
