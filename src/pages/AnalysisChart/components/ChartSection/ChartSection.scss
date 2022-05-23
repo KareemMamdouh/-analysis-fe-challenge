@@ -90,19 +90,19 @@
       /* Track */
       &::-webkit-scrollbar-track {
         margin: 10px;
-        box-shadow: inset 0 0 5px var(--scroll-color-500);
+        box-shadow: inset 0 0 5px var(--scroll-color);
         border-radius: 15px;
       }
 
       /* Handle */
       &::-webkit-scrollbar-thumb {
-        background: var(--scroll-color-500);
+        background: var(--scroll-color);
         border-radius: 15px;
       }
 
       /* Handle on hover */
       &::-webkit-scrollbar-thumb:hover {
-        background: var(--scroll-bg-color-500);
+        background: var(--scroll-bg-color);
       }
     }
   }

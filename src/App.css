@@ -5,16 +5,18 @@
   --secondary-color: brown;
   --red-color: #F3838B;
   --gray-color: #777;
-  --select-bg-color: rgb(43,159,216);
-  --select-bg-color-500: rgba(43,159,216,0.5);
-  --scroll-color-500: #999;
-  --scroll-bg-color-500:#ccc;
+  --select-bg-color: #2b9fd8;
+  --select-bg-color: #2b9fd880;
+  --select-color: #000;
+  --scroll-color: #999;
+  --scroll-bg-color:#ccc;
 
 }
 
 * {
   box-sizing: content-box;
     font-weight: 300;
+    
 }
 
 body {

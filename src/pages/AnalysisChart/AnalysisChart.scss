@@ -3,11 +3,26 @@
   .header {
     padding: 0 20px;
     color: var(--primary-color);
+    display: flex;
+    justify-content: space-between;
     h1 {
       margin: 10px 0;
     }
     h3 {
       margin: 5px 0;
+    }
+    .select-section {
+      padding: 0 10px;
+      width: 200px;
+
+      select {
+        margin: 5px 0;
+        width: 200px;
+        padding: 5px;
+        border-radius: 25px;
+        color: var(--select-color);
+        background-color: var(--white-bg-color);
+      }
     }
   }
 }

@@ -11,7 +11,7 @@ export const handleChangeSchool = (selected: string) => {
       type: ActionType.FILTER_STATE,
       payload: { ...state.AnalysisChart.filterState, school: selected },
     })
-    function groupBy(objectArray: IAnalysis[], property: 'school'): any {
+    const groupBy = (objectArray: IAnalysis[], property: 'school'): any => {
       return objectArray.reduce((acc: any, obj: IAnalysis) => {
         const key = obj[property]
         if (!acc[key]) {

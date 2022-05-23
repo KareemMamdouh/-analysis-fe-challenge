@@ -1,13 +1,19 @@
 .details {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   padding: 30px;
-
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
   .card {
     padding: 10px 30px 30px 30px;
     width: 33.333%;
     box-shadow: 1px 1px 5px var(--gray-color);
     background-color: var(--white-bg-color);
+    color: var(--select-color);
     h3 {
       text-align: center;
     }

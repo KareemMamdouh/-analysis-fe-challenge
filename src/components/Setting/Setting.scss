@@ -1,0 +1,13 @@
+.select-section {
+  padding: 0 10px;
+  width: 200px;
+
+  select {
+    margin: 5px 0;
+    width: 200px;
+    padding: 5px;
+    border-radius: 25px;
+    color: var(--select-color);
+    background-color: var(--white-bg-color);
+  }
+}

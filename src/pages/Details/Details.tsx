@@ -5,6 +5,7 @@ import { RootState } from 'redux/store/index'
 import { useEffect, useState } from 'react'
 import { IFilteredData, ILesson } from 'types/AnalysisTypes'
 import { useParams, useNavigate } from 'react-router-dom'
+import Setting from 'components/Setting/Setting'
 
 interface IProps {
   filteredAnalysis?: IFilteredData[]
@@ -36,6 +37,10 @@ export function Details({ filteredAnalysis }: IProps): JSX.Element {
 
   return (
     <div className="details">
+      <div className="header">
+        <Setting />
+      </div>
+
       {state && (
         <div className="card">
           <h3>{t('More Information')}</h3>
