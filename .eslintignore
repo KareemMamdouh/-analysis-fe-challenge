@@ -7,5 +7,6 @@ jest.config.js
 /src/redux/store/generateAPI
 /src/redux/store/petApi.ts
 openapi-config.ts
+coverage/
 # *.ts
 # *.tsx

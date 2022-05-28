@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
 import './Details.scss'
 import { connect } from 'react-redux'
-import { RootState } from 'redux/store/index'
 import { useEffect, useState } from 'react'
 import { IFilteredData, ILesson } from 'types/AnalysisTypes'
 import { useParams, useNavigate } from 'react-router-dom'
 import Setting from 'components/Setting/Setting'
+import i18n from 'i18n'
 
 interface IProps {
   filteredAnalysis?: IFilteredData[]
@@ -19,30 +19,30 @@ interface IState {
 }
 
 export function Details({ filteredAnalysis }: IProps): JSX.Element {
-  const { t } = useTranslation()
+  const { t } = useTranslation('', { i18n })
   const [state, setState] = useState<IState | null>(null)
-  const { name, month } = useParams()
+  const { name, noOfLesson } = useParams()
   const navigate = useNavigate()
   useEffect(() => {
-    if (filteredAnalysis && filteredAnalysis?.length > 0 && name && month) {
+    if (filteredAnalysis && filteredAnalysis?.length > 0 && name && noOfLesson) {
       const data = filteredAnalysis.filter(x => x.schoolName === name.replace(/-/g, ' '))
       setState({
         schoolName: data[0].schoolName,
-        ...data[0].lessons.filter((x: ILesson) => x.month === month)[0],
+        ...data[0].lessons.filter((x: ILesson) => x.NoOfLesson === +noOfLesson)[0],
       })
     } else {
       navigate('/')
     }
-  }, [filteredAnalysis, name, navigate, month])
+  }, [filteredAnalysis, name, navigate, noOfLesson])
 
   return (
-    <div className="details">
+    <div data-testid="details-Page" className="details">
       <div className="header">
         <Setting />
       </div>
 
       {state && (
-        <div className="card">
+        <div data-testid="information-card" className="card">
           <h3>{t('More Information')}</h3>
           <p>
             {t('Country :')}
@@ -68,7 +68,10 @@ export function Details({ filteredAnalysis }: IProps): JSX.Element {
     </div>
   )
 }
-const mapStateToProps = (state: RootState): IProps => {
+interface IStateToProps {
+  AnalysisChart: { filteredAnalysis?: IFilteredData[] }
+}
+export const mapStateToProps = (state: IStateToProps): IProps => {
   return {
     filteredAnalysis: state.AnalysisChart.filteredAnalysis,
   }

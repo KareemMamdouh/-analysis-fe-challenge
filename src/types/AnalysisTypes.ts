@@ -1,4 +1,6 @@
 import { ActionType } from 'redux/store/actionTypes'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from 'redux/store/index'
 
 export interface IAnalysis {
   id: string
@@ -34,7 +36,7 @@ export interface ILesson {
 }
 export interface IFilteredData {
   schoolName: string
-  color: string
+  color?: string
   schoolNoLessons: number
   lessons: ILesson[]
 }
@@ -42,10 +44,10 @@ export interface ISelectedSchools {
   label: string
   data: number[]
   borderColor: string
-  backgroundColor: '#fff'
-  pointStyle: 'circle'
-  pointRadius: 5
-  pointHoverRadius: 6
+  backgroundColor: string
+  pointStyle: string
+  pointRadius: number
+  pointHoverRadius: number
 }
 
 export interface IActionGetAllAnalysis {
@@ -77,7 +79,7 @@ export interface IActionSelectedSchools {
   payload: ISelectedSchools[]
 }
 
-export type Action =
+export type ActionTypes =
   | IActionGetAllAnalysis
   | IActionGetAllCountries
   | IActionGetAllCamps
@@ -85,3 +87,5 @@ export type Action =
   | IActionFilteredData
   | IActionFilterState
   | IActionSelectedSchools
+
+export type Action = ThunkDispatch<RootState, undefined, ActionTypes>

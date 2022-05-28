@@ -1,18 +1,21 @@
 import { ActionType } from 'redux/store/actionTypes'
 import { store } from 'redux/store/index'
 import axios from 'axios'
-import { Dispatch } from 'redux'
 import { Action, IAnalysis, ILesson, ISelectedSchools } from 'types/AnalysisTypes'
 
+interface IGroupByIAnalysis {
+  [key: string]: IAnalysis[]
+}
+
 export const handleChangeSchool = (selected: string) => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Action) => {
     const state = store.getState()
     dispatch({
       type: ActionType.FILTER_STATE,
       payload: { ...state.AnalysisChart.filterState, school: selected },
     })
-    const groupBy = (objectArray: IAnalysis[], property: 'school'): any => {
-      return objectArray.reduce((acc: any, obj: IAnalysis) => {
+    const groupBy = (objectArray: IAnalysis[], property: 'school'): IGroupByIAnalysis => {
+      return objectArray.reduce((acc: IGroupByIAnalysis, obj: IAnalysis) => {
         const key = obj[property]
         if (!acc[key]) {
           acc[key] = []
@@ -37,11 +40,10 @@ export const handleChangeSchool = (selected: string) => {
     }
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     const groupBySchools = groupBy(allSchools, 'school')
-    // console.log(Schools, 'Schools')
     const arraySchools = Object.keys(groupBySchools).map(key => {
       const lessonsMonthly = []
       for (let index = 0; index < months.length; index++) {
-        const monthExist = groupBySchools[key].filter((x: ILesson) => x.month === months[index])
+        const monthExist = groupBySchools[key].filter((x: IAnalysis) => x.month === months[index])
         // console.log(key, monthExist, ':monthIndex')
         const NoOfLesson =
           monthExist.length > 0
@@ -71,26 +73,29 @@ export const handleChangeSchool = (selected: string) => {
     })
     dispatch({
       type: ActionType.SELECTED_SCHOOLS,
-      payload: [
-        {
-          label: arraySchools[0].schoolName,
-          data: [
-            ...arraySchools[0].lessons.map((x: ILesson) => {
-              return x.NoOfLesson
-            }),
-          ],
-          borderColor: arraySchools[0].color,
-          backgroundColor: '#fff',
-          pointStyle: 'circle',
-          pointRadius: 5,
-          pointHoverRadius: 6,
-        },
-      ],
+      payload:
+        arraySchools.length > 0
+          ? [
+              {
+                label: arraySchools[0]?.schoolName,
+                data: [
+                  ...arraySchools[0].lessons.map((x: ILesson) => {
+                    return x.NoOfLesson
+                  }),
+                ],
+                borderColor: arraySchools[0].color,
+                backgroundColor: '#fff',
+                pointStyle: 'circle',
+                pointRadius: 5,
+                pointHoverRadius: 6,
+              },
+            ]
+          : [],
     })
   }
 }
 export const handleChangeCamp = (selected: string) => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Action) => {
     const state = store.getState()
     dispatch({
       type: ActionType.FILTER_STATE,
@@ -110,12 +115,12 @@ export const handleChangeCamp = (selected: string) => {
       type: ActionType.GET_ALL_SCHOOLS,
       payload: schools,
     })
-    dispatch<any>(handleChangeSchool(schools[0]))
+    dispatch(handleChangeSchool(schools[0]))
   }
 }
 
 export const handleChangeCountry = (selected: string) => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Action) => {
     const state = store.getState()
     dispatch({
       type: ActionType.FILTER_STATE,
@@ -134,11 +139,11 @@ export const handleChangeCountry = (selected: string) => {
       type: ActionType.GET_ALL_CAMPS,
       payload: camp,
     })
-    dispatch<any>(handleChangeCamp(camp[0]))
+    dispatch(handleChangeCamp(camp[0]))
   }
 }
 export const getAllAnalysis = () => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Action) => {
     axios
       .get(`https://raw.githubusercontent.com/abdelrhman-arnos/analysis-fe-challenge/master/data.json`, {})
       .then(res => {
@@ -157,7 +162,7 @@ export const getAllAnalysis = () => {
           type: ActionType.GET_ALL_COUNTRIES,
           payload: countries,
         })
-        dispatch<any>(handleChangeCountry(countries[0]))
+        dispatch(handleChangeCountry(countries[0]))
       })
       .catch(() => {
         // console.log(error, 'error')
@@ -165,7 +170,7 @@ export const getAllAnalysis = () => {
   }
 }
 export const setSelectedSchools = (schools: ISelectedSchools[]) => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Action) => {
     dispatch({
       type: ActionType.SELECTED_SCHOOLS,
       payload: schools,

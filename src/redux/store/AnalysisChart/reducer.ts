@@ -1,7 +1,7 @@
 import { ActionType } from 'redux/store/actionTypes'
-import { IState, Action } from 'types/AnalysisTypes'
+import { IState, ActionTypes } from 'types/AnalysisTypes'
 
-const initialState = {
+export const initialState = {
   allAnalysis: [],
   filteredAnalysis: [],
   allCountries: [],
@@ -11,7 +11,7 @@ const initialState = {
   filterState: { country: '', camp: '', school: '' },
 }
 
-const reducer = (state: IState = initialState, action: Action): IState => {
+const reducer = (state: IState = initialState, action: ActionTypes): IState => {
   switch (action.type) {
     case ActionType.GET_ALL_ANALYSIS:
       return {

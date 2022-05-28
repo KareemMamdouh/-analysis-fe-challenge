@@ -10,6 +10,7 @@ import {
 import { RootState } from 'redux/store/index'
 import { useEffect } from 'react'
 import { IFilterState, IAnalysis } from 'types/AnalysisTypes'
+import i18n from 'i18n'
 
 interface IProps {
   getAllAnalysis?: () => void
@@ -34,18 +35,19 @@ export function FilterBar({
   allCamps,
   allSchools,
 }: IProps): JSX.Element {
-  const { t } = useTranslation()
+  const { t } = useTranslation('', { i18n })
   useEffect(() => {
     if (getAllAnalysis && allAnalysis?.length === 0) {
       getAllAnalysis()
     }
   }, [getAllAnalysis, allAnalysis?.length])
   return (
-    <div className="filter-bar">
+    <div data-testid="filter-bar" className="filter-bar">
       {handleChangeCountry && (
         <div>
           <p>{t('Select Country')}</p>
           <select
+            data-testid="select-country"
             value={filterState?.country}
             onChange={(e): void => {
               handleChangeCountry(e.target.value)
@@ -64,6 +66,7 @@ export function FilterBar({
         <div>
           <p>{t('Select Camp')}</p>
           <select
+            data-testid="select-camp"
             value={filterState?.camp}
             onChange={(e): void => {
               handleChangeCamp(e.target.value)
@@ -83,6 +86,7 @@ export function FilterBar({
         <div>
           <p>{t('Select School')}</p>
           <select
+            data-testid="select-school"
             value={filterState?.school}
             onChange={(e): void => {
               handleChangeSchool(e.target.value)

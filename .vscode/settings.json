@@ -23,4 +23,7 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
 },
 "i18next.i18nPaths": "s:/work/next-starter-code/locales",
+"cSpell.words": [
+  "testid"
+],
 }

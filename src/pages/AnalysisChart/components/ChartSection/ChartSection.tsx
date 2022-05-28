@@ -9,6 +9,8 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartEvent,
+  ActiveElement,
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 import { connect } from 'react-redux'
@@ -16,10 +18,8 @@ import { setSelectedSchools } from 'redux/store/actions'
 import { RootState } from 'redux/store/index'
 import { ISelectedSchools, IFilterState, ILesson, IFilteredData } from 'types/AnalysisTypes'
 import { useNavigate } from 'react-router-dom'
+import i18n from 'i18n'
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
-
-const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 interface IProps {
   filteredAnalysis?: IFilteredData[]
   filterState?: IFilterState
@@ -32,22 +32,27 @@ export function ChartSection({
   selectedSchools,
   setSelectedSchools,
 }: IProps): JSX.Element {
-  const { t } = useTranslation()
+  const { t } = useTranslation('', { i18n })
   const navigate = useNavigate()
+  ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
+  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   const options = {
     plugins: {
       legend: {
         display: false,
       },
     },
-    onClick: (x: any) => {
-      navigate(
-        `/details/${x.chart.tooltip.dataPoints[0].dataset.label.replace(/ /g, '-')}/${
-          x.chart.tooltip.title[0]
-        }`,
-      )
+    onClick: (evt: ChartEvent, d: ActiveElement[]) => {
+      if (d.length > 0 && d[0].index && selectedSchools) {
+        navigate(
+          `/details/${selectedSchools[d[0].datasetIndex].label.replace(/ /g, '-')}/${
+            selectedSchools[d[0].datasetIndex].data[d[0].index]
+          }`,
+        )
+      }
     },
   }
+
   const handleClickSchool = (x: IFilteredData): void => {
     if (setSelectedSchools && selectedSchools) {
       const isExist = selectedSchools.filter(f => f.label === x.schoolName)
@@ -80,7 +85,7 @@ export function ChartSection({
     }
   }
   return (
-    <section className="chart-section">
+    <section data-testid="chart-section" className="chart-section">
       <div className="chart">
         <p>{t('No. of lessons')}</p>
         <Line options={options} data={{ labels, datasets: selectedSchools || [] }} />
@@ -106,6 +111,7 @@ export function ChartSection({
               return (
                 <button
                   type="button"
+                  data-testid="btn-handleClickSchool"
                   onClick={() => handleClickSchool(x)}
                   className="lesson"
                   key={`FilteredAnalysis-${i + 1}`}

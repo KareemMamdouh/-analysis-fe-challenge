@@ -1,9 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { useState, useEffect } from 'react'
 import './Setting.scss'
+import i18n from 'i18n'
 
-export default function AnalysisChart(): JSX.Element {
-  const { t, i18n } = useTranslation()
+export default function Setting(): JSX.Element {
+  const { t } = useTranslation('', { i18n })
   const [lang, setLang] = useState<string>('en')
   const [mode, setMode] = useState<string>('Light')
   const handleMode = (value: string): void => {
@@ -46,25 +47,31 @@ export default function AnalysisChart(): JSX.Element {
       handleMode(Mode)
     }
   }, [])
-  const handleLang = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    if (e.target.value === 'en') {
-      i18n.changeLanguage('en')
+  const handleLang = (value: string): void => {
+    if (value === 'en') {
       setLang('en')
       localStorage.setItem('Lang', 'en')
+      i18n.changeLanguage('en')
     } else {
-      i18n.changeLanguage('fr')
       setLang('fr')
       localStorage.setItem('Lang', 'fr')
+      i18n.changeLanguage('fr')
     }
   }
 
   return (
-    <div className="select-section">
-      <select onChange={handleLang} value={lang}>
+    <div data-testid="select-section" className="select-section">
+      <select
+        data-testid="handle-lang"
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleLang(e.target.value)}
+        value={lang}>
         <option value="en">{t('English')}</option>
         <option value="fr">{t('French')}</option>
       </select>
-      <select onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleMode(e.target.value)} value={mode}>
+      <select
+        data-testid="handle-mode"
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleMode(e.target.value)}
+        value={mode}>
         <option value="Light">{t('Light')}</option>
         <option value="Dark">{t('Dark')}</option>
       </select>
